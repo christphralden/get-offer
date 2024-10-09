@@ -9,7 +9,7 @@ Route::get('/', function () {
 });
 
 Route::get('/home', [HomeController::class, 'index']
-)->middleware(['auth', 'verified'])->name('home');
+)->name('home');
 
 
 // Route::middleware('auth')->group(function () {
