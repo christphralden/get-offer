@@ -6,16 +6,20 @@
             <!-- Desktop Menu -->
             <div class="hidden md:flex space-x-6">
                 <a href="{{ route('home') }}" class="text-white hover:text-gray-400">Home</a>
-                <a href="#" class="text-white hover:text-gray-400">Find Jobs</a>
-                <a href="#" class="text-white hover:text-gray-400">Contact Us</a>
-                <a href="#" class="text-white hover:text-gray-400">About Us</a>
+                @if (Auth::user() == null || Auth::user()->role === 'jobseeker')
+                    <a href="#" class="text-white hover:text-gray-400">Find Jobs</a>
+                @elseif (Auth::user()->role === 'recruiter')
+                    <a href="#" class="text-white hover:text-gray-400">Find Candidates</a>
+                @endif
+                <a href="{{ route('contact') }}" class="text-white hover:text-gray-400">Contact Us</a>
+                <a href="{{ route('about') }}" class="text-white hover:text-gray-400">About Us</a>
             </div>
         </div>
         <div class="flex flex-row gap-10">
             <div>
                 @auth
                 <div class="flex flex-row text-white justify-center items-center gap-5">
-                    <a href="{{ route('editProfile.edit') }}">Hi, {{ Auth::user()->name }}</a>
+                    <a href="{{ route('editProfile.view') }}">Hi, {{ Auth::user()->name }}</a>
                 </div>
                 @else
                     <a href="{{ route('login') }}" class="text-white hover:text-gray-400">Login</a>
@@ -37,7 +41,11 @@
     <!-- Mobile Menu -->
     <div id="mobile-menu" class="hidden md:hidden bg-gray-800">
         <a href="{{ route('home') }}" class="block text-white hover:text-gray-400 px-4 py-2">Home</a>
-        <a href="#" class="block text-white hover:text-gray-400 px-4 py-2">Find Jobs</a>
+        @if (Auth::user() == null || Auth::user()->role === 'jobseeker')
+            <a href="#" class="text-white hover:text-gray-400 px-4 py-2">Find Jobs</a>
+        @elseif (Auth::user()->role === 'recruiter')
+            <a href="#" class="text-white hover:text-gray-400 px-4 py-2">Find Candidates</a>
+        @endif
         <a href="#" class="block text-white hover:text-gray-400 px-4 py-2">Contact Us</a>
         <a href="#" class="block text-white hover:text-gray-400 px-4 py-2">About Us</a>
     </div>

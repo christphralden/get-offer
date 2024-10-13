@@ -11,6 +11,7 @@ class HomeController extends Controller
     {
         return view('home', [
             'isAuthenticated' => auth()->check(),
+            // 'role' => $user ? $user->role : null,
         ]);
     }
 }

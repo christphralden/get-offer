@@ -14,7 +14,7 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): View
+    public function view(Request $request): View
     {
         return view('editProfile', [
             'user' => $request->user(),
@@ -26,35 +26,44 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
-        $request->user()->fill($request->validated());
+        // Get the user instance
+        $user = $request->user();
 
+        // Only fill the fields that can be updated
+        $user->fill($request->validated());
+
+        // Prevent changes to the email and role
+        $user->email = $request->user()->email; // Keep existing email
+        $user->role = $request->user()->role; // Keep existing role
+
+        // Check if email has changed and set verified_at to null
         if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
+            $user->email_verified_at = null;
         }
 
-        $request->user()->save();
+        $user->save();
 
-        return Redirect::route('editProfile')->with('status', 'profile-updated');
+        return Redirect::route('editProfile.view')->with('status', 'profile-updated');
     }
 
     /**
      * Delete the user's account.
      */
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
+    // public function logout(Request $request): RedirectResponse
+    // {
+    //     $request->validateWithBag('userDeletion', [
+    //         'password' => ['required', 'current_password'],
+    //     ]);
 
-        $user = $request->user();
+    //     $user = $request->user();
 
-        Auth::logout();
+    //     Auth::logout();
 
-        $user->delete();
+    //     $user->delete();
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+    //     $request->session()->invalidate();
+    //     $request->session()->regenerateToken();
 
-        return Redirect::to('/');
-    }
+    //     return Redirect::to('/');
+    // }
 }

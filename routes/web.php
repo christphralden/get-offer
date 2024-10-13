@@ -7,21 +7,12 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return redirect()->route('home');
 });
-
-Route::get('/home', [HomeController::class, 'index']
-)->name('home');
-
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-//     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-//     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-// });
-
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+Route::get('/about', function () {return view('about');})->name('about');
+Route::get('/contact', function () {return view('contact');})->name('contact');
 Route::middleware('auth')->group(function () {
-    Route::get('/editProfile', [ProfileController::class, 'edit'])->name('editProfile.edit');
+    Route::get('/editProfile', [ProfileController::class, 'view'])->name('editProfile.view');
     Route::patch('/editProfile', [ProfileController::class, 'update'])->name('editProfile.update');
-    Route::delete('/editProfile', [ProfileController::class, 'destroy'])->name('editProfile.destroy');
 });
 
 require __DIR__.'/auth.php';
