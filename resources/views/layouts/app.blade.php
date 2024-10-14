@@ -24,6 +24,12 @@
         <footer style="background-color: black" class="w-full h-48 flex flex-col items-center justify-center text-white">
             <div class="flex w-full items-center justify-center">
                 <a href="http://" class="mx-4 hover:text-gray-400 px-6">Home</a>
+                @if (Auth::user() == null || Auth::user()->role === 'jobseeker')
+                    <a href="#" class="text-white hover:text-gray-400 px-6">Find Jobs</a>
+                @elseif (Auth::user()->role === 'recruiter')
+                    <a href="#" class="text-white hover:text-gray-400 px-6">View Jobs</a>
+                    <a href="#" class="text-white hover:text-gray-400 px-6">Post Jobs</a>
+                @endif
                 <a href="http://" class="mx-4 hover:text-gray-400 px-6">Contact Us</a>
                 <a href="http://" class="mx-4 hover:text-gray-400 px-6">About Us</a>
             </div>    

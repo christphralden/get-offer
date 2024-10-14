@@ -67,6 +67,8 @@ class RegisterController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'phoneNumber' => "",
+            'link' => "",
+            'jobs' => json_encode([""]),
             'role' => $validated['role'],
             'password' => Hash::make($validated['password']),
         ]);

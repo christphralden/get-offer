@@ -18,6 +18,8 @@ return new class extends Migration
             $table->enum('role', ['jobseeker', 'recruiter'])->default('jobseeker');
             $table->string('phoneNumber');
             $table->string('password');
+            $table->string('link');
+            $table->json('jobs');
             $table->rememberToken();
             $table->timestamps();
         });

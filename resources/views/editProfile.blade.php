@@ -17,11 +17,7 @@
 
             <div class="form-group mb-4">
                 <label for="email" class="block text-gray-700">Email</label>
-                <input id="email" type="email" name="email" value="{{ old('email', $user->email) }}" class="form-control mt-1 block w-full" required readonly>
-                <!-- Make email field readonly to prevent changes -->
-                @error('email')
-                    <span class="text-danger">{{ $message }}</span>
-                @enderror
+                <p class="text-gray-500">{{ $user->email }}</p>
             </div>
 
             <div class="form-group mb-4">
@@ -34,12 +30,17 @@
 
             <div class="form-group mb-4">
                 <label for="role" class="block text-gray-700">Role</label>
-                <input id="role" type="text" name="role" value="{{ $user->role }}" class="form-control mt-1 block w-full" readonly>
-                <!-- Make role field readonly to prevent changes -->
-                @error('role')
+                <p class="text-gray-500">{{ $user->role }}</p>
+            </div>
+            @if (Auth::user()->role === 'jobseeker')
+            <div class="form-group mb-4">
+                <label for="link" class="block text-gray-700">CV / Portfolio Link</label>
+                <input id="link" type="text" name="link" value="{{ $user->link }}" class="form-control mt-1 block w-full">
+                @error('link')
                     <span class="text-danger">{{ $message }}</span>
                 @enderror
             </div>
+            @endif
             <div>
                 @if (session('status'))
                     <div class="text-green-500">
@@ -58,7 +59,7 @@
     <div class="mt-4 w-full">
         <form action="{{ route('logout') }}" method="POST" class="inline">
             @csrf
-            <button type="submit" class="flex w-full justify-center items-center rounded-lg btn btn-primary text-white p-2 bg-red-500">
+            <button type="submit" class="flex w-full justify-center items-center rounded-lg btn btn-primary p-2 text-red-500">
                 Logout
             </button>
         </form>

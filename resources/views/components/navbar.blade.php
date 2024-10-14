@@ -9,7 +9,8 @@
                 @if (Auth::user() == null || Auth::user()->role === 'jobseeker')
                     <a href="#" class="text-white hover:text-gray-400">Find Jobs</a>
                 @elseif (Auth::user()->role === 'recruiter')
-                    <a href="#" class="text-white hover:text-gray-400">Find Candidates</a>
+                    <a href="#" class="text-white hover:text-gray-400">View All Recruitment</a>
+                    <a href="#" class="text-white hover:text-gray-400">Your Recruitment</a>
                 @endif
                 <a href="{{ route('contact') }}" class="text-white hover:text-gray-400">Contact Us</a>
                 <a href="{{ route('about') }}" class="text-white hover:text-gray-400">About Us</a>
@@ -44,10 +45,11 @@
         @if (Auth::user() == null || Auth::user()->role === 'jobseeker')
             <a href="#" class="text-white hover:text-gray-400 px-4 py-2">Find Jobs</a>
         @elseif (Auth::user()->role === 'recruiter')
-            <a href="#" class="text-white hover:text-gray-400 px-4 py-2">Find Candidates</a>
+            <a href="#" class="text-white hover:text-gray-400">View Jobs</a>
+            <a href="#" class="text-white hover:text-gray-400 px-4 py-2">Post Jobs</a>
         @endif
-        <a href="#" class="block text-white hover:text-gray-400 px-4 py-2">Contact Us</a>
-        <a href="#" class="block text-white hover:text-gray-400 px-4 py-2">About Us</a>
+        <a href="{{ route('contact') }}" class="block text-white hover:text-gray-400 px-4 py-2">Contact Us</a>
+        <a href="{{ route('about') }}" class="block text-white hover:text-gray-400 px-4 py-2">About Us</a>
     </div>
 </nav>
 
