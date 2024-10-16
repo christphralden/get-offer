@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('recruitment', function (Blueprint $table) {
+        Schema::create('recruitments', function (Blueprint $table) {
             $table->id();
             $table->json('jobDetail');
             $table->longText('jobDesc');
@@ -20,7 +20,7 @@ return new class extends Migration
             $table->json('requirement');
             $table->json('applicants');
             $table->date('end_date');
-            $table->foreignId('user_id')->constrained();
+            $table->unsignedBigInteger('user_id');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('recruitment');
+        Schema::dropIfExists('recruitments');
     }
 };

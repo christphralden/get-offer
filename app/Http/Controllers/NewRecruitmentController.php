@@ -30,11 +30,12 @@ class NewRecruitmentController extends Controller
         Recruitment::create([
             'jobDetail' => $validated['jobDetail'], // No need to json_encode
             'jobDesc' => $validated['jobDesc'],
-            'status' => 'open',
+            'status' => 'On going',
             'end_date' => $validated['end_date'],
             'user_id' => auth()->id(),
             'requirement' => $validated['requirement'], // No need to json_encode
             'criteria' => $validated['criteria'], // No need to json_encode
+            'applicants' => ['']
         ]);
 
         return redirect()->route('addRecruitment.view')->with('status', 'Recruitment created successfully!'); // Redirect to yourRecruit route

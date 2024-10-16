@@ -1,7 +1,7 @@
 <x-app-layout>
-    <div class="mx-auto">
+    <div class="mx-auto mt-20">
         <div class="relative w-full h-full">
-            <img src="{{ asset('storage/images/header image.jpeg') }}" alt="header image" class="w-full h-auto object-cover">
+            <img src="{{ asset('storage/images/header-image.jpeg') }}" alt="header image" class="w-full h-auto object-cover">
             <div class="absolute inset-0 flex flex-col items-center justify-center text-white text-3xl font-bold">
                 @if (Auth::user() == null || Auth::user()->role === 'jobseeker')
                     <span class="text-7xl">Looking for a Job?</span>
@@ -21,3 +21,5 @@
         </div>
     </div>
 </x-app-layout>
+
+

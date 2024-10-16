@@ -7,10 +7,11 @@
             <div class="hidden md:flex space-x-6">
                 <a href="{{ route('home') }}" class="text-white hover:text-gray-400">Home</a>
                 @if (Auth::user() == null || Auth::user()->role === 'jobseeker')
-                    <a href="#" class="text-white hover:text-gray-400">Find Jobs</a>
+                    <a href="{{ route('viewAllJobs.view') }}" class="text-white hover:text-gray-400">Find Jobs</a>
+                    <a href="{{ route('yourJobs.view') }}" class="text-white hover:text-gray-400">Your Jobs</a>
                 @elseif (Auth::user()->role === 'recruiter')
-                    <a href="#" class="text-white hover:text-gray-400">View All Recruitment</a>
-                    <a href="#" class="text-white hover:text-gray-400">Your Recruitment</a>
+                    <a href="{{ route('viewAllJobs.view') }}" class="text-white hover:text-gray-400">View All Jobs</a>
+                    <a href="{{ route('yourRecruitment.view') }}" class="text-white hover:text-gray-400">Your Recruitment</a>
                 @endif
                 <a href="{{ route('contact') }}" class="text-white hover:text-gray-400">Contact Us</a>
                 <a href="{{ route('about') }}" class="text-white hover:text-gray-400">About Us</a>
