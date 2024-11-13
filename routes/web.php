@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Recruitment\NewRecruitmentController;
@@ -35,6 +36,7 @@ Route::post('/jobDetails/{id}/endRecruitment', [RecruitmentController::class, 'e
 
 // View All Applicants
 Route::get('/jobDetails/{id}/applicants', [RecruitmentController::class, 'viewApplicants'])->name('viewAllJobs.applicants');
+Route::get('/jobDetails/{id}/applicant/{applicantId}', [ApplicantController::class, 'view'])->name('viewAllJobs.applicantDetail');
 
 // User Apply & Unapply
 Route::get('/yourJobs', [JobController::class, 'applied_jobs'])->name('yourJobs.view');

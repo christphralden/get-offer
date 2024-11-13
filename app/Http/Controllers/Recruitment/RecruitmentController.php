@@ -36,7 +36,10 @@ class RecruitmentController extends Controller
 
         $applicants = User::whereIn('id', $applicantIds)->get();
 
-        return view('viewAllApplicants', ['applicants' => $applicants]);
+        return view('viewAllApplicants', [
+            'applicants' => $applicants,
+            'recruitmentId' => $id
+        ]);
     }
 
 
