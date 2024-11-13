@@ -34,6 +34,17 @@
         @endif
         @if (Auth::user() && $role === 'recruiter')
             <a href="{{ route('viewAllJobs.applicants', $recruitment->id ) }}">View All Applicants</a>
+            @if ($recruitment->status === \App\Enums\RecruitmentStatus::ONGOING)
+                <form action="{{ route('viewAllJobs.endRecruitment', $recruitment->id) }}" method="POST" class="mt-4">
+                    @csrf
+                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded"
+                            onclick="return confirm('Are you sure you want to end this recruitment?');">
+                        End Recruitment
+                    </button>
+                </form>
+            @elseif ($recruitment->status === \App\Enums\RecruitmentStatus::ENDED)
+                <div>Job recruitment has ended</div>
+            @endif
         @endif
     </div>
 </x-app-layout>

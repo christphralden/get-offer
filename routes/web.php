@@ -24,13 +24,14 @@ Route::get('/yourRecruit', function () {return view('yourRecruitment');})->name(
 Route::get('/addRecruitment', [NewRecruitmentController::class, 'view'])->name('addRecruitment.view');
 Route::post('/addRecruitment', [NewRecruitmentController::class, 'store'])->name('addRecruitment.store');
 
-// View 
+// View
 Route::get('/yourRecruitment', [EditRecruitmentController::class, 'view'])->name('yourRecruitment.view');
 Route::get('/yourRecruitment/{id}', [EditRecruitmentController::class, 'edit'])->name('yourRecruitment.edit');
 
 // View All Jobs and Job Details
 Route::get('/viewAllJobs', [RecruitmentController::class, 'view'])->name('viewAllJobs.view');
 Route::get('/jobDetails/{id}', [RecruitmentController::class, 'viewDetails'])->name('viewAllJobs.details');
+Route::post('/jobDetails/{id}/endRecruitment', [RecruitmentController::class, 'endRecruitment'])->name('viewAllJobs.endRecruitment');
 
 // View All Applicants
 Route::get('/jobDetails/{id}/applicants', [RecruitmentController::class, 'viewApplicants'])->name('viewAllJobs.applicants');

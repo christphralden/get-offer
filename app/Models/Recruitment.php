@@ -1,6 +1,7 @@
 <?php
 namespace App\Models;
 
+use App\Enums\RecruitmentStatus;
 use Illuminate\Database\Eloquent\Model;
 
 class Recruitment extends Model
@@ -21,6 +22,7 @@ class Recruitment extends Model
         'criteria' => 'array',
         'requirement' => 'array',
         'applicants' => 'array',
+        'status' => RecruitmentStatus::class,
     ];
 
     public function user()
