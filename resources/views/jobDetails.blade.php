@@ -32,5 +32,8 @@
                 </button>
             </form>
         @endif
+        @if (Auth::user() && $role === 'recruiter')
+            <a href="{{ route('viewAllJobs.applicants', $recruitment->id ) }}">View All Applicants</a>
+        @endif
     </div>
 </x-app-layout>
