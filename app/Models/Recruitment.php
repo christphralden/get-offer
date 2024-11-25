@@ -22,7 +22,7 @@ class Recruitment extends Model
     // Relationship to job
     public function jobPosting(): BelongsTo
     {
-        return $this->belongsTo(Job::class, 'jobPostingId');
+        return $this->belongsTo(JobPosting::class, 'jobPostingId');
     }
 
     // Relationship to recruiter (user)

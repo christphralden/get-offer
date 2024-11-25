@@ -13,15 +13,17 @@ return new class extends Migration
     {
         Schema::create('job_postings', function (Blueprint $table) {
             $table->id();
-            $table->string('jobName');
-            $table->json('jobDetails'); // JSON data for additional job information
-            $table->longText('jobDesc'); // Job description
+            $table->unsignedBigInteger('recruiter_id'); // Foreign key for recruiters (users)
+            $table->string('name');
+            $table->string('position');
+            $table->string('place');
+            $table->double('salary');
+            $table->longText('description');
             $table->json('criteria'); // Criteria for applicants
             $table->json('requirement'); // Requirements for the job
-            $table->unsignedBigInteger('recruiterId'); // Foreign key for recruiters (users)
             $table->timestamps();
 
-            $table->foreign('recruiterId')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('recruiter_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

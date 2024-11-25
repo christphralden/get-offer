@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('recruitments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('jobPostingId'); // Foreign key for job postings
-            $table->unsignedBigInteger('recruiterId'); // Foreign key for recruiters (users)
-            $table->unsignedBigInteger('jobSeekerId'); // Foreign key for job seekers (users)
+            $table->unsignedBigInteger('job_posting_id'); // Foreign key for job postings
+            $table->unsignedBigInteger('recruiter_id'); // Foreign key for recruiters (users)
+            $table->unsignedBigInteger('job_seeker_id'); // Foreign key for job seekers (users)
             $table->string('status'); // Recruitment status
             $table->timestamps();
 
-            $table->foreign('jobPostingId')->references('id')->on('job_postings')->onDelete('cascade');
-            $table->foreign('recruiterId')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('jobSeekerId')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('job_posting_id')->references('id')->on('job_postings')->onDelete('cascade');
+            $table->foreign('recruiter_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('job_seeker_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

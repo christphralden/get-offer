@@ -11,10 +11,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'phoneNumber',
+        'phone_number',
         'role',
         'link',
-        'jobs'
     ];
 
     protected $hidden = [
@@ -30,9 +29,9 @@ class User extends Authenticatable
     }
 
     // Relationship to jobs (if the user is a recruiter)
-    public function jobs(): HasMany
+    public function job_postings(): HasMany
     {
-        return $this->hasMany(Job::class, 'recruiterId');
+        return $this->hasMany(JobPosting::class, 'recruiterId');
     }
 
     // Relationship to recruitments (if the user is a job seeker)
