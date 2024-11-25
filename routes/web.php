@@ -39,11 +39,11 @@ Route::get('/jobDetails/{id}/applicants', [RecruitmentController::class, 'viewAp
 Route::get('/jobDetails/{id}/applicant/{applicantId}', [ApplicantController::class, 'view'])->name('viewAllJobs.applicantDetail');
 
 // User Apply & Unapply
-Route::get('/yourJobs', [JobController::class, 'applied_jobs'])->name('yourJobs.view');
+Route::get('/yourJobs', [JobController::class, 'getAppliedJobs'])->name('yourJobs.view');
 Route::post('/applyJob/{id}', [JobController::class, 'apply'])->name('applyJob');
 Route::delete('/yourJobs/{id}/unapply', [JobController::class, 'unapply'])->name('jobs.unapply');
 
-Route::get('/yourJobs', [JobController::class, 'applied_jobs'])->name('yourJobs.view');
+// Route::get('/yourJobs', [JobController::class, 'applied_jobs'])->name('yourJobs.view');
 
 
 require __DIR__.'/auth.php';

@@ -7,11 +7,10 @@ use Illuminate\Support\Facades\Auth;
 
 class JobController extends Controller
 {
-    public function applied_jobs()
+    public function getAppliedJobs()
     {
         $userId = Auth::id();
-        $appliedJobs = Recruitment::where('user')
-        Recruitment::whereJsonContains('applicants', $userId)->get();
+        $appliedJobs = Recruitment::where('job_seeker_id', $userId)->get();
         return view('yourJobs', ['appliedJobs' => $appliedJobs]);
     }
 
