@@ -13,12 +13,12 @@ class EditRecruitmentController extends Controller
         $userId = Auth::id();
 
         // Retrieve "On Going" recruitments
-        $ongoingRecruitments = Recruitment::where('user_id', $userId)
+        $ongoingRecruitments = Recruitment::where('recruiter_id', $userId)
             ->where('status', 'On Going')
             ->get();
 
         // Retrieve recruitments that are NOT "On Going" (Recruitment History)
-        $historyRecruitments = Recruitment::where('user_id', $userId)
+        $historyRecruitments = Recruitment::where('recruiter_id', $userId)
             ->where('status', '!=', 'On Going')
             ->get();
 
