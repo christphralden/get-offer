@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Recruitment;
 
 use App\Http\Controllers\Controller;
+use App\Models\JobPosting;
 use App\Models\Recruitment;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -12,41 +13,48 @@ class RecruitmentController extends Controller
 {
     public function view()
     {
-        $recruitments = Recruitment::with('user')->get();
-        return view('viewAllJobs', ['recruitments' => $recruitments]);
+        $jobPostings = JobPosting::all();
+        return view('viewAllJobs', ['jobPostings' => $jobPostings]);
     }
 
     public function viewDetails($id)
     {
-        $recruitment = Recruitment::findOrFail($id);
+        $jobPosting = JobPosting::with('applicants')->findOrFail($id);
         $user = Auth::user();
-        $role = $user->role;
-        return view('jobDetails', ['recruitment' => $recruitment, 'role' => $role]);
+
+        $applicationStatus = $jobPosting->applicants()
+            ->where('applicant_id', $user->id)
+            ->exists();
+
+        return view('jobDetails', [
+            'jobPosting' => $jobPosting,
+            'role' => $user->role,
+            'applicationStatus' => $applicationStatus,
+        ]);
     }
 
     public function viewApplicants($id)
     {
-        $recruitment = Recruitment::findOrFail($id);
+        $jobPosting = JobPosting::with('applicants.applicant')->findOrFail($id);
 
-        $applicantIds = $recruitment->applicants ?? [];
-
-        if (!is_array($applicantIds) || empty($applicantIds)) {
+        if ($jobPosting->applicants->isEmpty()) {
             return redirect()->back()->with('error', 'No applicants found.');
         }
 
-        $applicants = User::whereIn('id', $applicantIds)->get();
+        $applicants = $jobPosting->applicants->map(function ($applicant) {
+            return $applicant->applicant;
+        });
 
         return view('viewAllApplicants', [
             'applicants' => $applicants,
-            'recruitmentId' => $id
+            'recruitmentId' => $id,
         ]);
     }
 
-
     public function endRecruitment($id){
-        $recruitment = Recruitment::findOrFail($id);
-        $recruitment->status = "Ended";
-        $recruitment->save();
+        $jobPosting = JobPosting::findOrFail($id);
+        $jobPosting->status = "Ended";
+        $jobPosting->save();
 
         return redirect()->back()->with('success', 'Recruitment ended successfully.');
     }

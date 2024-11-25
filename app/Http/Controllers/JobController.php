@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Applicant;
+use App\Models\JobPosting;
 use App\Models\Recruitment;
 use Illuminate\Support\Facades\Auth;
 
@@ -10,36 +12,49 @@ class JobController extends Controller
     public function getAppliedJobs()
     {
         $userId = Auth::id();
-        $appliedJobs = Recruitment::where('job_seeker_id', $userId)->get();
+
+        $appliedJobs = JobPosting::whereHas('applicants', function ($query) use ($userId) {
+            $query->where('applicant_id', $userId);
+        })->get();
+
         return view('yourJobs', ['appliedJobs' => $appliedJobs]);
     }
 
     public function apply($id)
     {
-        $recruitment = Recruitment::findOrFail($id);
-        $userId = auth()->id();
-        $applicants = $recruitment->applicants;
-        if (in_array($userId, $applicants)) {
-            $applicants = array_filter($applicants, function ($applicant) use ($userId) {
-                return $applicant !== $userId;
-            });
-        } else {
-            $applicants[] = $userId;
+        $jobPosting = JobPosting::findOrFail($id);
+        $userId = Auth::id();
+
+        $existingApplication = Applicant::where('job_posting_id', $jobPosting->id)
+            ->where('applicant_id', $userId)
+            ->first();
+
+        if ($existingApplication) {
+            $existingApplication->delete();
+
+            return redirect()->route('viewAllJobs.details', ['id' => $id])
+                ->with('status', 'You have successfully withdrawn your application.');
         }
-        $recruitment->applicants = $applicants;
-        $recruitment->save();
-        return redirect()->route('viewAllJobs.details', ['id' => $id]);
+
+        Applicant::create([
+            'job_posting_id' => $jobPosting->id,
+            'applicant_id' => $userId,
+        ]);
+
+        return redirect()->route('viewAllJobs.details', ['id' => $id])
+            ->with('status', 'You have successfully applied for this job.');
     }
 
     public function unapply($id)
     {
-        $job = Recruitment::findOrFail($id);
         $userId = Auth::id();
-        $updatedApplicants = array_filter($job->applicants, function($applicantId) use ($userId) {
-            return $applicantId != $userId;
-        });
-        $job->applicants = $updatedApplicants;
-        $job->save();
+
+        $job = JobPosting::findOrFail($id);
+
+        $job->applicants()
+            ->where('applicant_id', $userId)
+            ->delete();
+
         return redirect()->route('yourJobs.view')->with('status', 'You have successfully unapplied from the job.');
     }
 }

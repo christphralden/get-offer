@@ -6,11 +6,11 @@ use Illuminate\View\Component;
 
 class JobCard extends Component
 {
-    public $recruitment;
+    public $jobPosting;
 
-    public function __construct($recruitment)
+    public function __construct($jobPosting)
     {
-        $this->recruitment = $recruitment;
+        $this->jobPosting = $jobPosting;
     }
 
     public function render()

@@ -1,50 +1,79 @@
 <x-app-layout>
-    <div class="mx-auto mt-10">
-        <h1 class="text-3xl font-bold mb-5">{{ $recruitment->jobDetail['position'] }}</h1>
-        <p><strong>Location:</strong> {{ $recruitment->jobDetail['place'] }}</p>
-        <p><strong>Shift:</strong> {{ $recruitment->jobDetail['shift'] }}</p>
-        <p><strong>Salary:</strong> {{ $recruitment->jobDetail['salary'] }}</p>
-        <p><strong>Description:</strong> {{ $recruitment->jobDesc }}</p>
-        <p><strong>Status:</strong> {{ $recruitment->status }}</p>
-        <p><strong>End Date:</strong> {{ $recruitment->end_date }}</p>
+    <div class="container mx-auto mt-10 max-w-4xl p-6 bg-white shadow-md rounded-lg">
+        <h1 class="text-4xl font-extrabold text-gray-800 mb-6">{{ $jobPosting->position }}</h1>
 
-        <p><strong>Requirements:</strong></p>
-        <ul class="list-disc list-inside mb-4">
-            @foreach ($recruitment->requirement as $requirement)
-                <li>{{ $requirement }}</li>
-            @endforeach
-        </ul>
+        <div class="space-y-4">
+            <p class="text-lg text-gray-600">
+                <span class="font-semibold text-gray-800">Location:</span> {{ $jobPosting->place }}
+            </p>
+            <p class="text-lg text-gray-600">
+                <span class="font-semibold text-gray-800">Salary:</span> ${{ number_format($jobPosting->salary) }}
+            </p>
+            <p class="text-lg text-gray-600">
+                <span class="font-semibold text-gray-800">Description:</span> {{ $jobPosting->description }}
+            </p>
+            <p class="text-lg text-gray-600">
+                <span class="font-semibold text-gray-800">Status:</span>
+                <span class="px-2 py-1 rounded-full text-sm font-medium {{ $jobPosting->status === \App\Enums\RecruitmentStatus::ONGOING ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                    {{ $jobPosting->status }}
+                </span>
+            </p>
+            <p class="text-lg text-gray-600">
+                <span class="font-semibold text-gray-800">End Date:</span> {{ $jobPosting->end_date }}
+            </p>
+        </div>
 
-        <p><strong>Criteria:</strong></p>
-        <ul class="list-disc list-inside mb-4">
-            @foreach ($recruitment->criteria as $criteria)
-                <li>{{ $criteria }}</li>
-            @endforeach
-        </ul>
+        <div class="mt-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Requirements</h2>
+            <ul class="list-disc list-inside text-gray-600 space-y-1">
+                @foreach ($jobPosting->requirement as $requirement)
+                    <li>{{ $requirement }}</li>
+                @endforeach
+            </ul>
+        </div>
 
-        <p><strong>Applicants:</strong> {{ count(array_filter($recruitment->applicants)) }}</p>
+        <div class="mt-6">
+            <h2 class="text-2xl font-bold text-gray-800 mb-2">Criteria</h2>
+            <ul class="list-disc list-inside text-gray-600 space-y-1">
+                @foreach ($jobPosting->criteria as $criteria)
+                    <li>{{ $criteria }}</li>
+                @endforeach
+            </ul>
+        </div>
 
-        @if (Auth::user() == null || Auth::user()->role === 'jobseeker')
-            <form action="{{ route('applyJob', $recruitment->id) }}" method="POST">
-                @csrf
-                <button type="submit" class="text-blue-500">
-                    {{ in_array(auth()->id(), $recruitment->applicants) ? 'Unapply' : 'Apply this job' }}
-                </button>
-            </form>
-        @endif
-        @if (Auth::user() && $role === 'recruiter')
-            <a href="{{ route('viewAllJobs.applicants', $recruitment->id ) }}">View All Applicants</a>
-            @if ($recruitment->status === \App\Enums\RecruitmentStatus::ONGOING)
-                <form action="{{ route('viewAllJobs.endRecruitment', $recruitment->id) }}" method="POST" class="mt-4">
+        <div class="mt-6">
+            <p class="text-lg text-gray-600">
+                <span class="font-semibold text-gray-800">Applicants:</span> {{ count($jobPosting->applicants) }}
+            </p>
+        </div>
+
+        <div class="mt-6 space-y-4">
+            @if (Auth::user() == null || Auth::user()->role === 'jobseeker')
+                <form action="{{ route('applyJob', $jobPosting->id) }}" method="POST" class="inline">
                     @csrf
-                    <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded"
-                            onclick="return confirm('Are you sure you want to end this recruitment?');">
-                        End Recruitment
+                    <button type="submit" class="px-4 py-2 rounded-md bg-blue-500 text-white font-semibold hover:bg-blue-600 transition">
+                        {{ $applicationStatus ? 'Unapply' : 'Apply for this Job' }}
                     </button>
                 </form>
-            @elseif ($recruitment->status === \App\Enums\RecruitmentStatus::ENDED)
-                <div>Job recruitment has ended</div>
             @endif
-        @endif
+
+            @if (Auth::user() && $role === 'recruiter')
+                <a href="{{ route('viewAllJobs.applicants', $jobPosting->id) }}" class="px-4 py-2 rounded-md bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition">
+                    View All Applicants
+                </a>
+
+                @if ($jobPosting->status === \App\Enums\RecruitmentStatus::ONGOING)
+                    <form action="{{ route('viewAllJobs.endRecruitment', $jobPosting->id) }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="px-4 py-2 rounded-md bg-red-500 text-white font-semibold hover:bg-red-600 transition"
+                                onclick="return confirm('Are you sure you want to end this recruitment?');">
+                            End Recruitment
+                        </button>
+                    </form>
+                @elseif ($jobPosting->status === \App\Enums\RecruitmentStatus::ENDED)
+                    <div class="text-red-600 font-medium">Job recruitment has ended</div>
+                @endif
+            @endif
+        </div>
     </div>
 </x-app-layout>

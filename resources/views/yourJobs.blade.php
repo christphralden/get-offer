@@ -13,14 +13,14 @@
             @forelse ($appliedJobs as $job)
                 <div class="flex flex-row w-full">
                     <div class="flex flex-col w-full bg-gray-500 p-4">
-                        <p class="text-xl font-semibold">{{ $job->jobDetail['position'] }}</p>
-                        <p><strong>Location:</strong> {{ $job->jobDetail['place'] }}</p>
-                        <p><strong>Salary:</strong> {{ $job->jobDetail['salary'] }}</p>
+                        <p class="text-xl font-semibold">{{ $job->position }}</p>
+                        <p><strong>Location:</strong> {{ $job->place }}</p>
+                        <p><strong>Salary:</strong> {{ $job->salary }}</p>
                     </div>
 
                     <div class="flex flex-col w-full bg-gray-600 p-4 justify-end items-end">
                         <p class="font-semibold">Recruiter</p>
-                        <p>{{ $job->user->name }}</p>
+                        <p>{{ $job->recruiter->name }}</p>
 
                         <!-- View Details button -->
                         <a href="{{ route('viewAllJobs.details', $job->id) }}" class="bg-blue-500 text-white px-4 py-2 mt-2 rounded">

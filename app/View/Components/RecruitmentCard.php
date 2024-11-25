@@ -4,17 +4,17 @@ namespace App\View\Components;
 
 use Illuminate\View\Component;
 
-class RecruitmentCard extends Component
+class JobPostingCard extends Component
 {
-    public $recruitment;
+    public $jobPosting;
 
-    public function __construct($recruitment)
+    public function __construct($jobPosting)
     {
-        $this->recruitment = $recruitment;
+        $this->jobPosting = $jobPosting;
     }
 
     public function render()
     {
-        return view('components.recruitment-card');
+        return view('components.job-posting-card');
     }
 }

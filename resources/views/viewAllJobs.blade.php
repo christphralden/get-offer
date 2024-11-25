@@ -9,8 +9,8 @@
 
         <h1 class="text-3xl font-bold mb-5">All Job Listings</h1>
         <div class="space-y-4 w-full">
-            @forelse ($recruitments as $recruitment)
-                <x-job-card :recruitment="$recruitment" />
+            @forelse ($jobPostings as $jobPosting)
+                <x-job-card :jobPosting="$jobPosting" />
             @empty
                 <p>No jobs found.</p>
             @endforelse

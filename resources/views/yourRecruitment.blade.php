@@ -5,16 +5,16 @@
         </div>
         <h1 class="text-3xl font-bold mt-10">On Going Recruitment</h1>
         <div class="space-y-4 w-full">
-            @forelse ($ongoingRecruitments as $recruitment)
-                <x-recruitment-card :recruitment="$recruitment" />
+            @forelse ($ongoingJobPosting as $jobPosting)
+                <x-job-posting-card :jobPosting="$jobPosting" />
             @empty
                 <p>No jobs found.</p>
             @endforelse
         </div>
         <h1 class="text-3xl font-bold mt-10">Recruitment History</h1>
         <div class="space-y-4 w-full">
-            @forelse ($historyRecruitments as $recruitment)
-                <x-recruitment-card :recruitment="$recruitment" />
+            @forelse ($historyJobPosting as $jobPosting)
+                <x-job-posting-card :jobPosting="$jobPosting" />
             @empty
                 <p>No jobs found.</p>
             @endforelse

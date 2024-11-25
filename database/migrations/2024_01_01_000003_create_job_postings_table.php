@@ -21,6 +21,7 @@ return new class extends Migration
             $table->longText('description');
             $table->json('criteria'); // Criteria for applicants
             $table->json('requirement'); // Requirements for the job
+            $table->string('status'); // Status
             $table->timestamps();
 
             $table->foreign('recruiter_id')->references('id')->on('users')->onDelete('cascade');

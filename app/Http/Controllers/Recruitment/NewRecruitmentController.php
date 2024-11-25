@@ -4,41 +4,58 @@ namespace App\Http\Controllers\Recruitment;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Recruitment;
+use App\Models\JobPosting;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class NewRecruitmentController extends Controller
 {
-    public function view(){
+    public function validator(array $data)
+    {
+        return Validator::make($data, [
+            'name' => ['required', 'string', 'max:255'],
+            'position' => ['required', 'string', 'max:255'],
+            'place' => ['required', 'string', 'max:255'],
+            'salary' => ['required', 'numeric', 'min:0'],
+            'description' => ['required', 'string'],
+            'end_date' => ['required', 'date', 'after:today'],
+            'criteria' => ['required', 'array'],
+            'requirement' => ['required', 'array'],
+        ]);
+    }
+
+    public function view()
+    {
         return view('addNewRecruitment');
     }
 
     public function store(Request $request)
     {
-        // Validate the incoming request data
-        $validated = $request->validate([
-            'jobDetail.position' => 'required|string|max:255',
-            'jobDetail.place' => 'required|string|max:255',
-            'jobDetail.shift' => 'required|string|max:255',
-            'jobDetail.salary' => 'required|numeric|min:0',
-            'jobDesc' => 'required|string',
-            'end_date' => 'required|date|after:today',
-            'requirement' => 'required|array',
-            'criteria' => 'required|array',
-        ]);
+        $userId = Auth::id();
 
-        // Create a new recruitment entry
-        Recruitment::create([
-            'jobDetail' => $validated['jobDetail'], // No need to json_encode
-            'jobDesc' => $validated['jobDesc'],
-            'status' => 'On going',
-            'end_date' => $validated['end_date'],
-            'user_id' => auth()->id(),
-            'requirement' => $validated['requirement'], // No need to json_encode
-            'criteria' => $validated['criteria'], // No need to json_encode
-            'applicants' => ['']
-        ]);
+        $data = $request->all();
 
-        return redirect()->route('addRecruitment.view')->with('status', 'Recruitment created successfully!'); // Redirect to yourRecruit route
+        $this->validator($data)->validate();
+
+        try {
+            $jobPosting = JobPosting::create([
+                'name' => $data['name'],
+                'position' => $data['position'],
+                'place' => $data['place'],
+                'salary' => $data['salary'],
+                'description' => $data['description'],
+                'criteria' => $data['criteria'],
+                'requirement' => $data['requirement'],
+                'recruiter_id' => $userId,
+                'status' => 'On going',
+            ]);
+
+            return redirect()->route('addRecruitment.view')
+                ->with('status', 'Recruitment created successfully!');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withInput()
+                ->withErrors(['error' => 'Failed to create recruitment: ' . $e->getMessage()]);
+        }
     }
-
 }

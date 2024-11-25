@@ -11,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('recruitments', function (Blueprint $table) {
+        Schema::create('applicants', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('job_posting_id'); // Foreign key for job postings
-            $table->unsignedBigInteger('recruiter_id'); // Foreign key for recruiters (users)
-            $table->unsignedBigInteger('job_seeker_id'); // Foreign key for job seekers (users)
-            $table->string('status'); // Recruitment status
+            $table->unsignedBigInteger('applicant_id'); // Foreign key for job seekers (users)
             $table->timestamps();
 
             $table->foreign('job_posting_id')->references('id')->on('job_postings')->onDelete('cascade');
-            $table->foreign('recruiter_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('job_seeker_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('applicant_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 
@@ -30,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('recruitments');
+        Schema::dropIfExists('applicants');
     }
 };
