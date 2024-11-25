@@ -10,7 +10,8 @@ class JobController extends Controller
     public function applied_jobs()
     {
         $userId = Auth::id();
-        $appliedJobs = Recruitment::whereJsonContains('applicants', $userId)->get();
+        $appliedJobs = Recruitment::where('user')
+        Recruitment::whereJsonContains('applicants', $userId)->get();
         return view('yourJobs', ['appliedJobs' => $appliedJobs]);
     }
 
