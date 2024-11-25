@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use PhpParser\Node\Stmt\TryCatch;
 
 class RegisterController extends Controller
 {
@@ -23,18 +24,25 @@ class RegisterController extends Controller
             'role' => 'required|in:jobseeker,recruiter',
         ]);
 
-        // Create and save the user
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'phoneNumber' => "",
-            'link' => "",
-            'jobs' => json_encode([""]),
-            'role' => $validated['role'],
-            'password' => Hash::make($validated['password']),
-        ]);
-        auth()->login($user);
-        return redirect()->route('home');
+        try {
+            // Create and save the user
+            User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone_number' => '', // Defaults to empty
+                'link' => '',        // Defaults to empty
+                'role' => $validated['role'],
+                'password' => Hash::make($validated['password']),
+            ]);
+
+            // Redirect to login page with success message
+            return redirect()->route('login')->with('success', 'Account created successfully. Please log in.');
+        } catch (\Exception $e) {
+            // Redirect back with error message
+            return redirect()->back()->withInput()->withErrors([
+                'transaction_error' => 'Failed to create account. Please try again later.',
+            ]);
+        }
     }
 }
 
