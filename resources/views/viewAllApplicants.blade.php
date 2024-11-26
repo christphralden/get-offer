@@ -10,7 +10,7 @@
                         <span>{{$applicant->id}}</span>
                     </li>
                     <span>
-                        <a href="{{ route('viewAllJobs.applicantDetail', ['id' => $recruitmentId, 'applicantId' => $applicant->id]) }}">View Detail</a>
+                        <a href="{{ route('recruitment.applicant', ['id' => $recruitmentId, 'applicantId' => $applicant->id]) }}">View Detail</a>
                     </span>
 
                 @endforeach

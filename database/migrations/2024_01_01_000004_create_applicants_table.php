@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('job_posting_id'); // Foreign key for job postings
             $table->unsignedBigInteger('applicant_id'); // Foreign key for job seekers (users)
+            $table->string('status'); // Accepted, Rejected, Pending
             $table->timestamps();
 
             $table->foreign('job_posting_id')->references('id')->on('job_postings')->onDelete('cascade');

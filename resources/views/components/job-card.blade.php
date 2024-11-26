@@ -31,7 +31,7 @@
 
         <div class="flex flex-col justify-end mt-10">
             <p><strong>Salary:</strong> {{ $jobPosting->salary }}</p>
-            <a href="{{ route('viewAllJobs.details', $jobPosting->id) }}" class="bg-blue-500 text-white px-4 py-2 mt-2 rounded">
+            <a href="{{ route('job.details', $jobPosting->id) }}" class="bg-blue-500 text-white px-4 py-2 mt-2 rounded">
                 View Details
             </a>
         </div>

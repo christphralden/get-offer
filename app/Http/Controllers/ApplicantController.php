@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+
+/*
+* Handles anything related to the applicants:
+* applicant details, accpeting, rejecting, etc
+*/
 
 class ApplicantController extends Controller
 {

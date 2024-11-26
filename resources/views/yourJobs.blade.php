@@ -23,12 +23,12 @@
                         <p>{{ $job->recruiter->name }}</p>
 
                         <!-- View Details button -->
-                        <a href="{{ route('viewAllJobs.details', $job->id) }}" class="bg-blue-500 text-white px-4 py-2 mt-2 rounded">
+                        <a href="{{ route('job.details', $job->id) }}" class="bg-blue-500 text-white px-4 py-2 mt-2 rounded">
                             View Details
                         </a>
 
                         <!-- Unapply button -->
-                        <form action="{{ route('jobs.unapply', $job->id) }}" method="POST" class="mt-2">
+                        <form action="{{ route('job.unapply', $job->id) }}" method="POST" class="mt-2">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="bg-red-500 text-white px-4 py-2 mt-2 rounded">

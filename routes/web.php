@@ -3,15 +3,15 @@
 use App\Http\Controllers\ApplicantController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\Recruitment\NewRecruitmentController;
-use App\Http\Controllers\Recruitment\RecruitmentController;
-use App\Http\Controllers\JobController;
-use App\Http\Controllers\Recruitment\EditRecruitmentController;
+use App\Http\Controllers\JobPosting\JobPostingController;
+use App\Http\Controllers\JobSeeker\JobSeekerController;
+use App\Http\Controllers\Recruiter\RecruitmentController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return redirect()->route('home');
 });
+
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/about', function () {return view('about');})->name('about');
 Route::get('/contact', function () {return view('contact');})->name('contact');
@@ -22,28 +22,34 @@ Route::middleware('auth')->group(function () {
 
 // View & Add Recruiter's recruitment
 Route::get('/yourRecruit', function () {return view('yourRecruitment');})->name('yourRecruit');
-Route::get('/addRecruitment', [NewRecruitmentController::class, 'view'])->name('addRecruitment.view');
-Route::post('/addRecruitment', [NewRecruitmentController::class, 'store'])->name('addRecruitment.store');
 
-// View
-Route::get('/yourRecruitment', [EditRecruitmentController::class, 'view'])->name('yourRecruitment.view');
-Route::get('/yourRecruitment/{id}', [EditRecruitmentController::class, 'edit'])->name('yourRecruitment.edit');
 
-// View All Jobs and Job Details
-Route::get('/viewAllJobs', [RecruitmentController::class, 'view'])->name('viewAllJobs.view');
-Route::get('/jobDetails/{id}', [RecruitmentController::class, 'viewDetails'])->name('viewAllJobs.details');
-Route::post('/jobDetails/{id}/endRecruitment', [RecruitmentController::class, 'endRecruitment'])->name('viewAllJobs.endRecruitment');
+// Recruitment
+
+Route::get('/recruitment/create', [RecruitmentController::class, 'create'])->name('addRecruitment.create');
+Route::post('/recruitment', [RecruitmentController::class, 'store'])->name('addRecruitment.store');
+
+Route::get('/recruitment', [RecruitmentController::class, 'index'])->name('recruitment.view');
+
+Route::get('/recruitment/{id}', [RecruitmentController::class, 'show'])->name('recruitment.details');
+
+Route::get('/recruitment/{id}/edit', [RecruitmentController::class, 'edit'])->name('recruitment.edit');
+Route::post('/recruitment/{id}/end', [RecruitmentController::class, 'endRecruitment'])->name('recruitment.end');
 
 // View All Applicants
-Route::get('/jobDetails/{id}/applicants', [RecruitmentController::class, 'viewApplicants'])->name('viewAllJobs.applicants');
-Route::get('/jobDetails/{id}/applicant/{applicantId}', [ApplicantController::class, 'view'])->name('viewAllJobs.applicantDetail');
+Route::get('/recruitment/{id}/applicants', [RecruitmentController::class, 'applicants'])->name('recruitment.applicants');
+Route::get('/recruitment/{id}/applicant/{applicantId}', [ApplicantController::class, 'view'])->name('recruitment.applicant');
 
-// User Apply & Unapply
-Route::get('/yourJobs', [JobController::class, 'getAppliedJobs'])->name('yourJobs.view');
-Route::post('/applyJob/{id}', [JobController::class, 'apply'])->name('applyJob');
-Route::delete('/yourJobs/{id}/unapply', [JobController::class, 'unapply'])->name('jobs.unapply');
 
-// Route::get('/yourJobs', [JobController::class, 'applied_jobs'])->name('yourJobs.view');
+// JobPosting
 
+Route::get('/jobs/', [JobPostingController::class, 'index'])->name('jobs.view');
+Route::get('/job/{id}', [JobPostingController::class, 'show'])->name('job.details');
+
+Route::get('/jobs/applied', [JobSeekerController::class, 'appliedJobs'])->name('jobs.applied');
+
+
+Route::post('/job/{id}/apply', [JobSeekerController::class, 'apply'])->name('job.apply');
+Route::delete('/job/{id}/unapply', [JobSeekerController::class, 'unapply'])->name('job.unapply');
 
 require __DIR__.'/auth.php';

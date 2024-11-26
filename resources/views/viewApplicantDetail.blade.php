@@ -11,11 +11,6 @@
 
         <div>
             <h2 class="text-lg font-semibold mt-4">Previous Jobs:</h2>
-            <ul class="list-disc list-inside">
-                @foreach (json_decode($applicant->jobs, true) as $job)
-                    <li>{{ $job }}</li>
-                @endforeach
-            </ul>
         </div>
 
         <div class="flex gap-8">

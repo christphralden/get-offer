@@ -18,7 +18,7 @@ class JobPosting extends Model
         'description',
         'criteria',
         'requirement',
-        'status'
+        'status',
     ];
 
     protected $casts = [

@@ -18,7 +18,7 @@ class User extends Authenticatable
 
     protected $hidden = [
         'password',
-        'remember_token'
+        'remember_token',
     ];
 
     protected function casts(): array
@@ -28,15 +28,13 @@ class User extends Authenticatable
         ];
     }
 
-    // Relationship to jobs (if the user is a recruiter)
-    public function job_postings(): HasMany
+    public function jobPostings(): HasMany
     {
-        return $this->hasMany(JobPosting::class, 'recruiterId');
+        return $this->hasMany(JobPosting::class, 'recruiter_id');
     }
 
-    // Relationship to recruitments (if the user is a job seeker)
-    public function recruitments(): HasMany
+    public function applications(): HasMany
     {
-        return $this->hasMany(Recruitment::class, 'jobSeekerId');
+        return $this->hasMany(Applicant::class, 'applicant_id');
     }
 }
