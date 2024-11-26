@@ -16,10 +16,9 @@ return new class extends Migration
             $table->string('name')->unique();
             $table->string('email')->unique();
             $table->enum('role', ['jobseeker', 'recruiter'])->default('jobseeker');
-            $table->string('phoneNumber');
+            $table->string('phone_number');
             $table->string('password');
             $table->string('link');
-            $table->json('jobs');
             $table->rememberToken();
             $table->timestamps();
         });

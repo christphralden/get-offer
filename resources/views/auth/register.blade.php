@@ -11,7 +11,7 @@
                 @enderror
             </div>
         </div>
-        
+
         <div class="form-group mt-3">
             <label for="email">Email</label>
             <br />
@@ -48,7 +48,7 @@
                 @enderror
             </div>
         </div>
-        
+
         <div class="form-group mt-3">
             <label for="password_confirmation">Confirm Password</label>
             <br />
@@ -59,19 +59,31 @@
                 @enderror
             </div>
         </div>
-        
+
         <div class="flex justify-center items-center mt-4">
             <button type="submit" class="flex w-full justify-center items-center rounded-lg btn btn-primary text-white p-2 bg-black">
                 Register
             </button>
         </div>
-        
+
         <div class="flex justify-center items-center mt-4">
             <a class="text-sm text-muted" href="{{ route('login') }}">
                 Already Registered? Login here
             </a>
         </div>
     </form>
+
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if ($errors->has('transaction_error'))
+        <div class="alert alert-danger">
+            {{ $errors->first('transaction_error') }}
+        </div>
+    @endif
 
     <script>
         function setRole(role) {

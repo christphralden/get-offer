@@ -48,19 +48,22 @@
         </div>
 
         <div class="mt-6 space-y-4">
-            @if (Auth::user() == null || Auth::user()->role === 'jobseeker')
-                <form action="{{ route('job.apply', $jobPosting->id) }}" method="POST" class="inline">
-                    @csrf
-                    <button type="submit" class="px-4 py-2 rounded-md bg-blue-500 text-white font-semibold hover:bg-blue-600 transition">
-                        {{ $applicationStatus ? 'Unapply' : 'Apply for this Job' }}
-                    </button>
-                </form>
-            @endif
-
             @if ($isRecruiter)
-                <a href="{{ route('recruitment.details', $jobPosting->id) }}" class="px-4 py-2 rounded-md bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition">
-                    Go to recruitment
+                <a href="{{ route('recruitment.applicants', $jobPosting->id) }}" class="px-4 py-2 rounded-md bg-gray-200 text-gray-800 font-semibold hover:bg-gray-300 transition">
+                    View All Applicants
                 </a>
+
+                @if ($jobPosting->status === \App\Enums\RecruitmentStatus::ONGOING)
+                    <form action="{{ route('recruitment.end', $jobPosting->id) }}" method="POST" class="inline">
+                        @csrf
+                        <button type="submit" class="px-4 py-2 rounded-md bg-red-500 text-white font-semibold hover:bg-red-600 transition"
+                                onclick="return confirm('Are you sure you want to end this recruitment?');">
+                            End Recruitment
+                        </button>
+                    </form>
+                @elseif ($jobPosting->status === \App\Enums\RecruitmentStatus::ENDED)
+                    <div class="text-red-600 font-medium">Job recruitment has ended</div>
+                @endif
             @endif
         </div>
     </div>

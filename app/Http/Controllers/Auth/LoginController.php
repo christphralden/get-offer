@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+
+// refactored
 
 class LoginController extends Controller
 {
@@ -12,12 +15,17 @@ class LoginController extends Controller
         return view('auth.login');
     }
 
-    public function store(Request $request)
+    private function validator(array $data)
     {
-        $credentials = $request->validate([
+        return Validator::make($data,[
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
+    }
+    public function store(Request $request)
+    {
+        $credentials = $this->validator($request->all())->validate();
+
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('home');

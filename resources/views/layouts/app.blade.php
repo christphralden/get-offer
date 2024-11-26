@@ -32,7 +32,7 @@
                 @endif
                 <a href="http://" class="mx-4 hover:text-gray-400 px-6">Contact Us</a>
                 <a href="http://" class="mx-4 hover:text-gray-400 px-6">About Us</a>
-            </div>    
+            </div>
             <p class="mt-2">© {{ date('Y') }} GetOffer. All rights reserved.</p>
         </footer>
     </body>

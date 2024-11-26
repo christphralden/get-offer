@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+
+// refactored
 
 class HomeController extends Controller
 {
     public function index()
     {
         return view('home', [
-            'isAuthenticated' => auth()->check(),
-            // 'role' => $user ? $user->role : null,
+            'isAuthenticated' => Auth::check(),
+            'role' => Auth::check() ? Auth::user()->role : null,
         ]);
     }
 }
