@@ -10,7 +10,7 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'phoneNumber' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:15',
+            'phone_number' => 'required|string|regex:/^([0-9\s\-\+\(\)]*)$/|min:10|max:15',
             'link' => 'required|string',
         ];
     }

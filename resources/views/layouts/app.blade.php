@@ -17,21 +17,21 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen w-full bg-gray-100">
             @include('components.navbar')
-            <main>
+            <main class="flex flex-col w-full">
                 {{ $slot }}
             </main>
         </div>
-        <footer style="background-color: black" class="w-full h-48 flex flex-col items-center justify-center text-white">
+        <footer style="background-color: black" class="w-full h-48 flex flex-col items-center justify-center text-white text-center">
             <div class="flex w-full items-center justify-center">
-                <a href="http://" class="mx-4 hover:text-gray-400 px-6">Home</a>
+                <a href="http://" class="mx-4 hover:text-gray-400">Home</a>
                 @if (Auth::user() == null || Auth::user()->role === 'jobseeker')
-                    <a href="#" class="text-white hover:text-gray-400 px-6">Find Jobs</a>
+                    <a href="#" class="text-white hover:text-gray-400">Find Jobs</a>
                 @elseif (Auth::user()->role === 'recruiter')
-                    <a href="#" class="text-white hover:text-gray-400 px-6">View Jobs</a>
-                    <a href="#" class="text-white hover:text-gray-400 px-6">Post Jobs</a>
+                    <a href="#" class="text-white hover:text-gray-400 mx-4">View Jobs</a>
+                    <a href="#" class="text-white hover:text-gray-400 mx-4">Post Jobs</a>
                 @endif
-                <a href="http://" class="mx-4 hover:text-gray-400 px-6">Contact Us</a>
-                <a href="http://" class="mx-4 hover:text-gray-400 px-6">About Us</a>
+                <a href="http://" class="mx-4 hover:text-gray-400">Contact Us</a>
+                <a href="http://" class="mx-4 hover:text-gray-400">About Us</a>
             </div>
             <p class="mt-2">© {{ date('Y') }} GetOffer. All rights reserved.</p>
         </footer>

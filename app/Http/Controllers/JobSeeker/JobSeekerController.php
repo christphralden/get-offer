@@ -24,7 +24,15 @@ class JobSeekerController extends Controller
             $query->where('applicant_id', $userId);
         })->get();
 
-        return view('yourJobs', ['appliedJobs' => $appliedJobs]);
+        $pendingJobs = $appliedJobs->filter(function ($job) {
+            return $job->applicant->status === 'Pending';
+        });
+
+        $acceptedJobs = $appliedJobs->filter(function ($job) {
+            return $job->applicant->status === 'Accepted';
+        });
+
+        return view('yourJobs', ['pendingJobs' => $pendingJobs, 'acceptedJobs' => $acceptedJobs, 'jobHistory' => $appliedJobs]);
     }
 
     public function apply($id)

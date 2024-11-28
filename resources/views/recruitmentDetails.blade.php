@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="container mx-auto mt-10 max-w-4xl p-6 bg-white shadow-md rounded-lg">
+    <div class="container mx-10 my-20 max-w-4xl p-6 bg-white shadow-md rounded-lg">
         <h1 class="text-4xl font-extrabold text-gray-800 mb-6">{{ $jobPosting->position }}</h1>
 
         <div class="space-y-4">
@@ -57,7 +57,7 @@
                     <form action="{{ route('recruitment.end', $jobPosting->id) }}" method="POST" class="inline">
                         @csrf
                         <button type="submit" class="px-4 py-2 rounded-md bg-red-500 text-white font-semibold hover:bg-red-600 transition"
-                                onclick="return confirm('Are you sure you want to end this recruitment?');">
+                                onclick="return confirm('All pending applicants will be rejected, are you sure you want to end this recruitment? ');">
                             End Recruitment
                         </button>
                     </form>

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\JobPosting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Applicant;
 
 /*
 * Handles anything related to recruitment activites:
@@ -45,7 +46,6 @@ class RecruitmentController extends Controller
     private function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
             'position' => ['required', 'string', 'max:255'],
             'place' => ['required', 'string', 'max:255'],
             'salary' => ['required', 'numeric', 'min:0'],
@@ -71,7 +71,6 @@ class RecruitmentController extends Controller
 
         try {
             JobPosting::create([
-                'name' => $data['name'],
                 'position' => $data['position'],
                 'place' => $data['place'],
                 'salary' => $data['salary'],
@@ -82,7 +81,7 @@ class RecruitmentController extends Controller
                 'status' => 'On going',
             ]);
 
-            return redirect()->route('addRecruitment.view')
+            return redirect()->route('recruitment.view')
                 ->with('status', 'Recruitment created successfully!');
         } catch (\Exception $e) {
             return redirect()->back()
@@ -106,18 +105,31 @@ class RecruitmentController extends Controller
 
     public function applicants($id)
     {
-        $jobPosting = JobPosting::with('applicants.applicant')->findOrFail($id);
+        $jobPosting = JobPosting::findOrFail($id);
 
-        if ($jobPosting->applicants->isEmpty()) {
-            return redirect()->back()->with('error', 'No applicants found.');
-        }
+        $applicantIds = $jobPosting->applicants->map(function ($applicant) {
+            return $applicant->applicant->id;
+        });
+        
+        // Fetch all applicants with matching applicant_id values
+        $applicants = Applicant::where('job_posting_id', $id)->get();
 
-        $applicants = $jobPosting->applicants->map(function ($applicant) {
-            return $applicant->applicant;
+        $rejectedApplicants = $applicants->filter(function ($applicant) {
+            return $applicant->status === 'Rejected';
+        });
+        
+        $pendingApplicants = $applicants->filter(function ($applicant) {
+            return $applicant->status === 'Pending';
+        });
+
+        $acceptedApplicants = $applicants->filter(function ($applicant) {
+            return $applicant->status === 'Accepted';
         });
 
         return view('viewAllApplicants', [
-            'applicants' => $applicants,
+            'rejectedApplicants' => $rejectedApplicants,
+            'pendingApplicants' => $pendingApplicants,
+            'acceptedApplicants' => $acceptedApplicants,
             'recruitmentId' => $id,
         ]);
     }
@@ -125,6 +137,9 @@ class RecruitmentController extends Controller
     public function endRecruitment($id){
         $jobPosting = JobPosting::findOrFail($id);
         $jobPosting->status = "Ended";
+        $jobPosting->applicants()
+               ->where('status', 'Pending')
+               ->update(['status' => 'Rejected']);
         $jobPosting->save();
 
         return redirect()->back()->with('success', 'Recruitment ended successfully.');

@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="mx-auto mt-20">
+    <div class="mx-10 my-20">
         @if (Auth::user() == null)
             <div class="absolute flex flex-col justify-center items-center w-full h-full text-black gap-5">
                 <div class="absolute w-full h-full bg-white opacity-50 pointer-events-none"></div> <!-- Add pointer-events-none -->
@@ -8,39 +8,32 @@
             </div>
         @endif
         @auth
-        <h1 class="text-3xl font-bold mb-5">Jobs You've Applied For</h1>
-        <div class="space-y-4 w-full">
-            @forelse ($appliedJobs as $job)
-                <div class="flex flex-row w-full">
-                    <div class="flex flex-col w-full bg-gray-500 p-4">
-                        <p class="text-xl font-semibold">{{ $job->position }}</p>
-                        <p><strong>Location:</strong> {{ $job->place }}</p>
-                        <p><strong>Salary:</strong> {{ $job->salary }}</p>
-                    </div>
+            <h1 class="text-3xl font-bold mb-5 mt-10">Your Accepted Jobs</h1>
+            <div class="flex space-y-4 w-full gap-10">
+                @forelse ($acceptedJobs as $job)
+                <x-your-job-card :job="$job" />
+                @empty
+                    <p>No jobs found that you've applied for.</p>
+                @endforelse
+            </div>
 
-                    <div class="flex flex-col w-full bg-gray-600 p-4 justify-end items-end">
-                        <p class="font-semibold">Recruiter</p>
-                        <p>{{ $job->recruiter->name }}</p>
+            <h1 class="text-3xl font-bold mb-5 mt-10">Your Pending Jobs</h1>
+            <div class="space-y-4 w-full gap-10">
+                @forelse ($pendingJobs as $job)
+                <x-your-job-card :job="$job" />
+                @empty
+                    <p>No jobs found that you've applied for.</p>
+                @endforelse
+            </div>
 
-                        <!-- View Details button -->
-                        <a href="{{ route('job.details', $job->id) }}" class="bg-blue-500 text-white px-4 py-2 mt-2 rounded">
-                            View Details
-                        </a>
-
-                        <!-- Unapply button -->
-                        <form action="{{ route('job.unapply', $job->id) }}" method="POST" class="mt-2">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="bg-red-500 text-white px-4 py-2 mt-2 rounded">
-                                Unapply
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            @empty
-                <p>No jobs found that you've applied for.</p>
-            @endforelse
-        </div>
+            <h1 class="text-3xl font-bold mb-5 mt-10">Job History</h1>
+            <div class="space-y-4 w-full gap-10">
+                @forelse ($jobHistory as $job)
+                <x-your-job-card :job="$job" />
+                @empty
+                    <p>No jobs found that you've applied for.</p>
+                @endforelse
+            </div>
         @endauth
     </div>
 </x-app-layout>

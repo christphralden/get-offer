@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('job_postings', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('recruiter_id'); // Foreign key for recruiters (users)
-            $table->string('name');
             $table->string('position');
             $table->string('place');
             $table->double('salary');

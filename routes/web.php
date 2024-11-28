@@ -39,11 +39,12 @@ Route::post('/recruitment/{id}/end', [RecruitmentController::class, 'endRecruitm
 // View All Applicants
 Route::get('/recruitment/{id}/applicants', [RecruitmentController::class, 'applicants'])->name('recruitment.applicants');
 Route::get('/recruitment/{id}/applicant/{applicantId}', [ApplicantController::class, 'view'])->name('recruitment.applicant');
-
+Route::put('/recruitment/{id}/applicant/{applicantId}/accept', [ApplicantController::class, 'accept'])->name('recruitment.accept');
+Route::put('/recruitment/{id}/applicant/{applicantId}/reject', [ApplicantController::class, 'reject'])->name('recruitment.reject');
 
 // JobPosting
 
-Route::get('/jobs/', [JobPostingController::class, 'index'])->name('jobs.view');
+Route::get('/jobs', [JobPostingController::class, 'index'])->name('jobs.view');
 Route::get('/job/{id}', [JobPostingController::class, 'show'])->name('job.details');
 
 Route::get('/jobs/applied', [JobSeekerController::class, 'appliedJobs'])->name('jobs.applied');
