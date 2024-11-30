@@ -15,7 +15,7 @@
                 @endif
             </div>
             <div class="absolute w-full h-full bg-black z-10 opacity-70"></div>
-            <img src="{{ asset('header-image.jpeg') }}" alt="header image" class="absolute w-full h-full object-cover">
+            <img src="{{ asset('asset/header-image.jpeg') }}" alt="header image" class="absolute w-full h-full object-cover">
         </div>
         <div class="flex w-full h-96 my-10">
             <div class="flex flex-col w-full mx-10">
@@ -51,10 +51,36 @@
                 </div>
             </div>
         </div>
+
         
         <div class="flex w-full h-96 my-10">
             <div class="flex flex-col w-full mx-10">
-                <span class="text-3xl font-bold mb-10">About us</span>
+                
+                
+                <div class="container flex gap-32  justify-between h-full">
+                    
+                    <div class="w-full lg:w-1/2">
+                        <span class="text-3xl font-bold mb-20">About us</span>
+
+                        <h1 class="text-2xl mt-5  font-extrabold text-800 leading-tight mb-4">
+                            Connecting Talent & Providing Opportunities
+                        </h1>
+
+                        <p class="text-sm mb-4 ">
+                            At GetOffer, we understand that success begins with the right connections. Our platform is designed to empower individuals by providing easy access to meaningful job opportunities while helping employers find the talent they need to grow. 
+                        </p>
+
+                        <button class="bg-black py-2 px-4 rounded-lg my-5 text-2xl text-white">
+                            <a href="{{ route('about') }}">Learn More</a>
+                        </button>
+                        
+                    </div>
+
+                    <div class="w-1/2 p-4 h-full items-center justify-center hidden lg:block">
+                        <img  src="{{asset('asset/about-partner-image.avif')}}" alt="about-mission" class="rounded-lg w-full min-h-[500] h-full object-cover">
+                    </div>
+
+                </div>
             </div>
         </div>
     </div>
