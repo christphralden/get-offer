@@ -15,7 +15,7 @@
                 @endif
             </div>
             <div class="absolute w-full h-full bg-black z-10 opacity-70"></div>
-            <img src="{{ asset('asset/header-image.jpeg') }}" alt="header image" class="absolute w-full h-full object-cover">
+            <img src="{{ asset('asset/header-image.jpg') }}" alt="header image" class="absolute w-full h-full object-cover">
         </div>
         <div class="flex w-full h-96 my-10">
             <div class="flex flex-col w-full mx-10">
