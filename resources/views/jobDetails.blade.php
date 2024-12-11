@@ -50,7 +50,10 @@
 
             <div class="mt-6 space-y-4">
                 @if (Auth::user() != null || Auth::user()->role === 'jobseeker')
-                    @if ($jobPosting->status->value != 'Ended')
+                    @if (Auth::user()->role != 'jobseeker')
+                        <p class="text-red-500 py-5">Please login as a jobseker to apply this job</p>
+                    @endif
+                    @if ($jobPosting->status->value != 'Ended' && Auth::user()->role == 'jobseeker')
                         <form action="{{ route('job.apply', $jobPosting->id) }}" method="POST" class="inline">
                             @csrf
                             <button type="submit" class="px-4 py-2 rounded-md bg-blue-500 text-white font-semibold hover:bg-blue-600 transition">
