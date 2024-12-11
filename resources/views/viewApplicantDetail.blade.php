@@ -5,7 +5,7 @@
         <div class="mb-4">
             <p><strong>Name:</strong> {{ $applicant->applicant->name }}</p>
             <p><strong>Email:</strong> {{ $applicant->applicant->email }}</p>
-            <p><strong>Phone Number:</strong> {{ $applicant->applicant->phoneNumber }}</p>
+            <p><strong>Phone Number:</strong> {{ $applicant->applicant->phone_number }}</p>
             <p><strong>Link:</strong> <a href="{{ $applicant->applicant->link }}" class="text-blue-500 underline">{{ $applicant->applicant->link }}</a></p>
         </div>
         <div class="flex gap-8">

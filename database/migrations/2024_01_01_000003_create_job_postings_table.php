@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('place');
             $table->double('salary');
             $table->longText('description');
+            $table->date('end_date');
             $table->json('criteria'); // Criteria for applicants
             $table->json('requirement'); // Requirements for the job
             $table->string('status'); // Status

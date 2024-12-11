@@ -24,7 +24,8 @@ class JobPostingFactory extends Factory
             'description' => $this->faker->paragraph(mt_rand(2, 4)),
             'criteria' => ['Cekatan', 'Teliti'],
             'requirement' => ['Usia minimal 20 tahun', 'Berwarganegara Indonesia'],
-            'status' => 'On going'
+            'status' => 'On going',
+            'end_date' => $this->faker->date()
         ];
     }
 }

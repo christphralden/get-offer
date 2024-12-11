@@ -79,6 +79,7 @@ class RecruitmentController extends Controller
                 'requirement' => $data['requirement'],
                 'recruiter_id' => $user->id,
                 'status' => 'On going',
+                'end_date' => $data['end_date']
             ]);
 
             return redirect()->route('recruitment.view')
