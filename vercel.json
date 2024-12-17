@@ -2,7 +2,7 @@
     "version": 2,
     "framework": null,
     "functions": {
-        "api/index.php": { "runtime": "vercel-php@0.6.1" }
+        "api/index.php": { "runtime": "vercel-php@0.7.3" }
     },
     "routes": [
         { "src": "/build/(.*)", "dest": "/public/build/" },
@@ -14,6 +14,7 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "false",
+        "APP_URL": "https://christopheralden.dev",
         "APP_KEY": "base64:RdGe9NlIDAzSble3dT6uscDkuzv77//vENlY6Elcnn0=",
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
