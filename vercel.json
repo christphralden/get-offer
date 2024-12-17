@@ -8,7 +8,7 @@
         { "src": "/favicon.ico", "dest": "/public/favicon.ico" },
         { "src": "/(.*)", "dest": "/api/index.php" }
     ],
-    "buildCommand": "curl -sS https://getcomposer.org/installer | php && php composer.phar install --ignore-platform-reqs --no-dev && npm install && npm run build",
+    "buildCommand": "npm install && npm run build",
     "outputDirectory": "public",
     "env": {
         "APP_ENV": "production",
